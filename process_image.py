@@ -20,11 +20,11 @@ def process_image(image_file,
 
     new_path_img = os.path.join(new_path,str(ith))
 
-    gray_img = cv2.imread(image_file,0)
     rgb_image = cv2.imread(image_file)
     red_img = rgb_image[:,:,0]
     green_img = rgb_image[:,:,1]
     blue_img = rgb_image[:,:,2]
+    gray_img = 0.3*red_img + .59*green_img + 0.11*blue_img
     all_black = np.zeros((rgb_image.shape[0],rgb_image.shape[1]))
     red_img = np.stack((red_img,all_black,all_black),axis=2)
     green_img = np.stack( (all_black,green_img,all_black),axis=2)
@@ -49,10 +49,11 @@ def load_images_then_save(img_files,dst_path):
 
 
 
-# if __name__ == '__main__':
-#     img_path = "./miniimagenet_1000/"
-#     new_path = "saved_folder_new"
-#     start_time = time.time()
-#     load_images_then_save(img_path,new_path)
-#     elapsed_time = time.time()-start_time
-#     print("Elpased Time:{}".format(elapsed_time))
+if __name__ == '__main__':
+    # img_path = "./miniimagenet_1000/"
+    # new_path = "saved_folder_new"
+    # start_time = time.time()
+    # load_images_then_save(img_path,new_path)
+    # elapsed_time = time.time()-start_time
+    # print("Elpased Time:{}".format(elapsed_time))
+    img_path = './'
