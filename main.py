@@ -8,6 +8,7 @@ from threading import Thread
 from time import time
 
 from process_image import process_image
+from process_image import load_images_then_save
 
 class ImgProcessWorker(Thread):
     def __init__(self,queue,dst_path):
@@ -24,25 +25,13 @@ class ImgProcessWorker(Thread):
 
 
 
-def main():
+def main(img_files,DST_PATH,NUM_WORKERS):
     ts = time()
-    IMAGES_PATH = './miniimagenet_1000/'
-    DST_PATH = 'new_miniimagenet'
     new_path = os.path.join(os.getcwd(),DST_PATH)
     if not os.path.exists(new_path):
         os.makedirs(new_path,exist_ok=True)
-    NUM_WORKERS = 8
-    img_files = []
     queue = Queue()
 
-    file_types = [
-        '*.jpg',
-        '*.png',
-        '*.gif'
-    ]
-
-    for file_type in file_types:
-        img_files.extend(glob.glob(IMAGES_PATH+file_type))
     for x in range(NUM_WORKERS):
         worker = ImgProcessWorker(queue,new_path)
         worker.daemon = True
@@ -51,8 +40,26 @@ def main():
         queue.put((img_file,ith))
     queue.join()
     elapsed_time = time()-ts
-    print("Elapsed Time with Worker:{}".format(elapsed_time))
+    print("Elapsed Time with Multithreading:{}".format(elapsed_time))
 
 
 if __name__ =='__main__':
-    main()
+    IMAGES_PATH = './miniimagenet_1000/'
+    DST_PATH = 'new_miniimagenet'
+    DST_PATH2 = 'new_miniimagenet2'
+    #Using 8 workers because CPU (i.e i7-8750H has 6 cores)
+    NUM_WORKERS = 8
+
+    file_types = [
+        '*.jpg',
+        '*.png',
+        '*.gif'
+    ]
+    img_files = []
+    for file_type in file_types:
+        img_files.extend(glob.glob(IMAGES_PATH+file_type))
+
+    #Without multithreading
+    load_images_then_save(img_files,DST_PATH2)
+    #With multithreading
+    main(img_files,DST_PATH,NUM_WORKERS)

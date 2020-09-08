@@ -35,26 +35,17 @@ def process_image(image_file,
     cv2.imwrite(new_path_img+'_blue_image.jpg',blue_img)
 
 
-def load_images_then_save(src_path,dst_path):
+def load_images_then_save(img_files,dst_path):
     root_path = os.getcwd()
     new_path = os.path.join(root_path,dst_path)
     if not os.path.exists(new_path):
         os.makedirs(dst_path,exist_ok=True)
-    print(src_path)
-    file_types = [
-        '*.jpg',
-        '*.png',
-        '*.gif'
-    ]
-    img_files = []
-    for file_type in file_types:
-        img_files.extend(glob.glob(src_path+file_type))
 
-    print(len(img_files))
-
-
+    st = time.time()
     for ith,img_file in enumerate(img_files):
         process_image(img_file,ith,new_path)
+    elapsed_time = time.time() - st
+    print("Elapsed Time Without:{}".format(elapsed_time))
 
 
 
