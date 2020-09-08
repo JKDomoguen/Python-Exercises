@@ -1,3 +1,3 @@
 # Python-Exercises
-# Dependencies: Python 3.0>
-#               opencv
+Dependencies: Python 3.0>
+              PIL
