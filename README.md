@@ -1,3 +1,2 @@
 # Python-Exercises
-Dependencies: Python 3.0>
-              PIL
+Dependencies: Python 3.0>,PIL
